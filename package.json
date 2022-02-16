@@ -1,0 +1,36 @@
+{
+  "name": "assignment-b2-realtime-web-application",
+  "version": "1.0.0",
+  "description": "In this assignment, you will be writing a web application that includes realtime web technologies such as WebSocket and webhook.",
+  "main": ".src/server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon --inspect -r dotenv/config src/server.js",
+    "lint": "npx eslint ./src ./public || exit 0",
+    "lint:fix": "npx eslint ./src --fix || exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.lnu.se:1dv026/student/aj224rj/assignment-b2-realtime-web-application"
+  },
+  "keywords": [],
+  "author": "Anders Jonsson",
+  "license": "ISC",
+  "dependencies": {
+    "csurf": "^1.11.0",
+    "date-fns": "^2.28.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.17.2",
+    "helmet": "^5.0.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@lnu/eslint-config": "^1.1.4",
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
