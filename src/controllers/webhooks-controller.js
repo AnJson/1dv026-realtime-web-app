@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import { Issue } from '../models/issues.js'
+// import { Issue } from '../models/issues.js'
 
 /**
  * Encapsulating the webhooks controller-methods.
@@ -23,6 +23,7 @@ export class WebhooksController {
    */
   async indexPost (req, res, next) {
     try {
+      console.log('------------- Hello! --------------')
       let issue = null
 
       if (req.body.event_type === 'issue') {
@@ -33,8 +34,9 @@ export class WebhooksController {
       res.status(200).end()
 
       // Check what type of data and what kind of event to send to client.
+      // And save to db.
       if (issue) {
-        // NOTE: Add code here.
+        console.log(issue)
       }
     } catch (error) {
       const err = new Error('Internal Server Error')
@@ -52,6 +54,8 @@ export class WebhooksController {
    * @returns {Function} - Express next middleware function with error-object.
    */
   async authenticate (req, res, next) {
+    console.log('---------Authenticate--------')
+
     if (req.headers['x-gitlab-token'] !== process.env.WEBHOOK_SECRET) {
       const error = new Error('Invalid token')
       error.status = 401

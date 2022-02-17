@@ -6,7 +6,6 @@
  */
 
 import express from 'express'
-import helmet from 'helmet'
 import expressLayouts from 'express-ejs-layouts'
 import session from 'express-session'
 import logger from 'morgan'
@@ -15,10 +14,10 @@ import { fileURLToPath } from 'url'
 import { router } from './routes/router.js'
 import { connectDB } from './config/mongoose.js'
 import { sessionOptions } from './config/session.js'
-import csurf from 'csurf'
-
 import { createServer } from 'node:http'
 import { Server } from 'socket.io'
+import helmet from 'helmet'
+import csurf from 'csurf'
 
 try {
   // Connect to MongoDB.
@@ -47,7 +46,13 @@ try {
   const baseURL = process.env.BASE_URL || '/'
 
   // Add Helmet-security to prevent XSS and to set default headers to the app.
-  app.use(helmet)
+  // Only allow external from gitlab.lnu.se.
+  app.use(helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", 'gitlab.lnu.se']
+    }
+  }))
 
   // Set up a morgan logger using the dev format for log entries.
   app.use(logger('dev'))
