@@ -17,12 +17,28 @@ import { connectDB } from './config/mongoose.js'
 import { sessionOptions } from './config/session.js'
 import csurf from 'csurf'
 
+import { createServer } from 'node:http'
+import { Server } from 'socket.io'
+
 try {
   // Connect to MongoDB.
   await connectDB()
 
   // Creates an Express application.
   const app = express()
+
+  // Create an HTTP server and pass it to Socket.IO.
+  const httpServer = createServer(app)
+  const io = new Server(httpServer)
+
+  // Log user-connections.
+  io.on('connection', (socket) => {
+    console.log('socket.io: a user connected')
+
+    socket.on('disconnect', () => {
+      console.log('socket.io: a user disconnected')
+    })
+  })
 
   // Get the directory name of this module's path.
   const directoryFullName = dirname(fileURLToPath(import.meta.url))
@@ -45,6 +61,9 @@ try {
   // Parse requests of the content type application/x-www-form-urlencoded.
   // Populates the request object with a body object (req.body).
   app.use(express.urlencoded({ extended: false }))
+
+  // Enable parsing of json.
+  app.use(express.json())
 
   // Serve static files.
   app.use(express.static(join(directoryFullName, '..', 'public')))
@@ -69,6 +88,9 @@ try {
     // Pass the base URL to the views.
     res.locals.baseURL = baseURL
 
+    // Add the io object to the response object to make it available in controllers.
+    res.io = io
+
     next()
   })
 
@@ -80,6 +102,13 @@ try {
 
   // Error handler.
   app.use(function (err, req, res, next) {
+    // If a webhook request send the status code and message as plain text.
+    if (req.originalUrl.includes('/webhooks')) {
+      return res
+        .status(err.status || 500)
+        .end(err.message)
+    }
+
     // 404 Not Found.
     if (err.status === 404) {
       return res
@@ -104,7 +133,7 @@ try {
   })
 
   // Starts the HTTP server listening for connections.
-  app.listen(process.env.PORT, () => {
+  httpServer.listen(process.env.PORT, () => {
     console.log(`Server running at http://localhost:${process.env.PORT}`)
     console.log('Press Ctrl-C to terminate...')
   })
