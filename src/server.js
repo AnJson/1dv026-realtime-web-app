@@ -17,7 +17,6 @@ import { sessionOptions } from './config/session.js'
 import { createServer } from 'node:http'
 import { Server } from 'socket.io'
 import helmet from 'helmet'
-import csurf from 'csurf'
 
 try {
   // Connect to MongoDB.
@@ -98,9 +97,6 @@ try {
 
     next()
   })
-
-  // Add make csurf accessible globaly, to prevent csurf-attacks.
-  app.use(csurf())
 
   // Register routes.
   app.use('/', router)

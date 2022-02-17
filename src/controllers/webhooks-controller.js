@@ -23,7 +23,6 @@ export class WebhooksController {
    */
   async indexPost (req, res, next) {
     try {
-      console.log('------------- Hello! --------------')
       let issue = null
 
       if (req.body.event_type === 'issue') {
@@ -37,6 +36,7 @@ export class WebhooksController {
       // And save to db.
       if (issue) {
         console.log(issue)
+        // TODO: Fix the handeling of recieved issue from webhook.
       }
     } catch (error) {
       const err = new Error('Internal Server Error')
@@ -54,8 +54,6 @@ export class WebhooksController {
    * @returns {Function} - Express next middleware function with error-object.
    */
   async authenticate (req, res, next) {
-    console.log('---------Authenticate--------')
-
     if (req.headers['x-gitlab-token'] !== process.env.WEBHOOK_SECRET) {
       const error = new Error('Invalid token')
       error.status = 401
