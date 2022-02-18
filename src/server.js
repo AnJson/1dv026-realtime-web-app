@@ -12,16 +12,12 @@ import logger from 'morgan'
 import { dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import { router } from './routes/router.js'
-import { connectDB } from './config/mongoose.js'
 import { sessionOptions } from './config/session.js'
 import { createServer } from 'node:http'
 import { Server } from 'socket.io'
 import helmet from 'helmet'
 
 try {
-  // Connect to MongoDB.
-  await connectDB()
-
   // Creates an Express application.
   const app = express()
 

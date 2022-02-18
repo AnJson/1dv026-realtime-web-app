@@ -2,4 +2,6 @@
   <h1 class="section__heading">Issues</h1>
 </div>
 
-<%= viewData.csrfToken %> 
+<% viewData.issues.forEach(issue => { %>
+ <%= issue.title %> 
+<% }) %>

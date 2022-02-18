@@ -5,8 +5,6 @@
  * @version 1.0.0
  */
 
-// import { Issue } from '../models/issues.js'
-
 /**
  * Encapsulating the webhooks controller-methods.
  *
@@ -36,7 +34,7 @@ export class WebhooksController {
       // And save to db.
       if (issue) {
         console.log(issue)
-        // TODO: Fix the handeling of recieved issue from webhook.
+        // TODO: Fix the handeling of recieved issue from webhook to signal event.
       }
     } catch (error) {
       const err = new Error('Internal Server Error')

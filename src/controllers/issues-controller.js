@@ -5,7 +5,7 @@
  * @version 1.0.0
  */
 
-import { Issue } from '../models/issues.js'
+import fetch from 'node-fetch'
 
 /**
  * Encapsulating the Issues controller-methods.
@@ -23,10 +23,18 @@ export class IssuesController {
    */
   async index (req, res, next) {
     try {
+      // TODO: Map the viewdata-object.
+      const response = await fetch(process.env.ISSUES_URL, {
+        headers: {
+          authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`
+        }
+      })
+
       const viewData = {
-        issues: await Issue.find(),
-        csrfToken: req.csrfToken()
+        issues: await response.json()
       }
+
+      console.log(viewData.issues)
 
       res.render('issues/index', { viewData })
     } catch (error) {
