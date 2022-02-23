@@ -1,7 +1,11 @@
 <div class="section">
   <h1 class="section__heading">Issues</h1>
 </div>
-
 <% viewData.issues.forEach(issue => { %>
- <%= issue.title %> 
+ <%= issue.title %>
+ <%= issue.description %>
+ <%= issue.user %>
+ <%= issue.user_avatar %>
+ <%= issue.updated %>
+ <%= issue.state %> 
 <% }) %>

@@ -5,6 +5,7 @@
  * @version 1.0.0
  */
 
+import { formatDistanceToNow } from 'date-fns'
 import fetch from 'node-fetch'
 
 /**
@@ -30,14 +31,17 @@ export class IssuesController {
         }
       })
 
+      const issues = await response.json()
+
       const viewData = {
-        issues: await response.json()
+        issues: issues
           .map(issue => ({
             title: issue.title,
             description: issue.description,
-            updated: issue.updated_at,
+            updated: formatDistanceToNow(new Date(issue.updated_at), { addSuffix: true }),
             state: issue.state,
-            edited_by: issue.last_edited_by
+            user: issue.author.name,
+            user_avatar: issue.author.avatar_url
           }))
       }
 

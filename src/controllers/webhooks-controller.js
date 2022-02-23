@@ -6,6 +6,7 @@
  */
 
 import fetch from 'node-fetch'
+import { formatDistanceToNow } from 'date-fns'
 
 /**
  * Encapsulating the webhooks controller-methods.
@@ -24,20 +25,25 @@ export class WebhooksController {
   async indexPost (req, res, next) {
     try {
       let issue = null
+
+      // Respond quickly to signal succesfully recieved.
+      res.status(200).end()
+
       if (req.body.event_type === 'issue') {
         const issueData = req.body.object_attributes
-        const userResponse = await fetch(`${process.env.USERS_URL}?id=${issueData.last_edited_by_id}`, {
+        const userId = issueData.action === 'update' ? issueData.last_edited_by_id : issueData.author_id
+
+        const response = await fetch(`${process.env.USERS_URL}?id=${userId}`, {
           headers: {
             authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`
           }
         })
-
-        const user = await userResponse.json()
+        const user = await response.json()
 
         issue = {
           title: issueData.title,
           description: issueData.description,
-          updated: issueData.updated_at,
+          updated: formatDistanceToNow(new Date(issueData.updated_at), { addSuffix: true }),
           user: user[0].name,
           user_avatar: user[0].avatar_url,
           state: issueData.state,
@@ -45,14 +51,25 @@ export class WebhooksController {
         }
       }
 
-      // Respond quickly to signal succesfully recieved.
-      res.status(200).end()
-
       // Check what type of data and what kind of event to send to client.
       // And save to db.
       if (issue) {
         console.log(issue)
-        // TODO: Fix the handeling of recieved issue from webhook to signal event.
+        if (issue.action === 'update') {
+          console.log('UPDATED ISSUE!')
+        }
+
+        if (issue.action === 'close') {
+          console.log('CLOSED ISSUE!')
+        }
+
+        if (issue.action === 'reopen') {
+          console.log('REOPENED ISSUE!')
+        }
+
+        if (issue.action === 'open') {
+          console.log('CREATED ISSUE!')
+        }
       }
     } catch (error) {
       const err = new Error('Internal Server Error')
