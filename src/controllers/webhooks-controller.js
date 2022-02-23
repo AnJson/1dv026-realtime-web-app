@@ -5,6 +5,8 @@
  * @version 1.0.0
  */
 
+import fetch from 'node-fetch'
+
 /**
  * Encapsulating the webhooks controller-methods.
  *
@@ -22,9 +24,25 @@ export class WebhooksController {
   async indexPost (req, res, next) {
     try {
       let issue = null
-
       if (req.body.event_type === 'issue') {
-        issue = req.body.object_attributes
+        const issueData = req.body.object_attributes
+        const userResponse = await fetch(`${process.env.USERS_URL}?id=${issueData.last_edited_by_id}`, {
+          headers: {
+            authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`
+          }
+        })
+
+        const user = await userResponse.json()
+
+        issue = {
+          title: issueData.title,
+          description: issueData.description,
+          updated: issueData.updated_at,
+          user: user[0].name,
+          user_avatar: user[0].avatar_url,
+          state: issueData.state,
+          action: issueData.action
+        }
       }
 
       // Respond quickly to signal succesfully recieved.

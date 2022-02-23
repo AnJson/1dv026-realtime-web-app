@@ -32,6 +32,13 @@ export class IssuesController {
 
       const viewData = {
         issues: await response.json()
+          .map(issue => ({
+            title: issue.title,
+            description: issue.description,
+            updated: issue.updated_at,
+            state: issue.state,
+            edited_by: issue.last_edited_by
+          }))
       }
 
       console.log(viewData.issues)
