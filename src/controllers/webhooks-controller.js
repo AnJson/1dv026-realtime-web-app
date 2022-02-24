@@ -68,7 +68,7 @@ export class WebhooksController {
         }
 
         if (issue.action === 'open') {
-          console.log('CREATED ISSUE!')
+          res.io.emit('issue/create', issue)
         }
       }
     } catch (error) {
