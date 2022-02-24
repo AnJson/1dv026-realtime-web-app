@@ -2,18 +2,20 @@
   <h1 class="section__heading">Issues</h1>
   <div class="issues-wrapper">
     <% viewData.issues.forEach(issue => { %>
-    <div class="issue" data-id="<%= issue.id %>">
+    <div class="issue <% if (issue.state === 'closed') { %> issue--closed <% } %>" data-id="<%= issue.id %>">
       <div class="issue__header">
+        <img class="issue__avatar" src="<%= issue.user_avatar %> " alt="avatar">
         <h2 class="issue__title"><%= issue.title %></h2>
         <span class="issue__meta">edited by <%= issue.user %> <%= issue.updated %></span>
+        <span class="issue__closed-label <% if (issue.state !== 'closed') { %> hidden <% } %>">[closed]</span>
         <div class="issue__header-buttons">
-          <button class="btn btn--sm btn--decline">Close</button>
-          <button class="btn btn--sm btn--main">Reopen</button>
+          <button class="close-button btn btn--sm btn--decline <% if (issue.state === 'closed') { %> hidden <% } %>">Close</button>
+          <button class="reopen-button btn btn--sm btn--main <% if (issue.state === 'opened') { %> hidden <% } %>">Reopen</button>
         </div>
       </div>
       <p class="issue__description"><%= issue.description %> </p>
       <div class="issue__footer">
-        <a href="./edit/<%= issue.id %> ">
+        <a class="issue__footer-link" href="./edit/<%= issue.id %> ">
           <button class="btn btn--sm btn--main">Edit</button>
         </a> 
       </div>
@@ -21,3 +23,24 @@
     <% }) %>
   </div>
 </div>
+
+<template id="issue-template">
+  <div class="issue">
+    <div class="issue__header">
+      <img class="issue__avatar" src="" alt="avatar">
+      <h2 class="issue__title"></h2>
+      <span class="issue__meta"></span>
+      <span class="issue__closed-label">[closed]</span>
+      <div class="issue__header-buttons">
+        <button class="close-button btn btn--sm btn--decline">Close</button>
+        <button class="reopen-button btn btn--sm btn--main">Reopen</button>
+      </div>
+    </div>
+    <p class="issue__description"></p>
+    <div class="issue__footer">
+      <a class="issue__footer-link">
+        <button class="btn btn--sm btn--main">Edit</button>
+      </a> 
+    </div>
+  </div>
+</template>

@@ -24,7 +24,6 @@ export class IssuesController {
    */
   async index (req, res, next) {
     try {
-      // TODO: Map the viewdata-object.
       const response = await fetch(process.env.ISSUES_URL, {
         headers: {
           authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`

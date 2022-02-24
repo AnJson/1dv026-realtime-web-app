@@ -31,6 +31,10 @@ body {
   font-family: sans-serif;
 }
 
+.hidden {
+  display: none !important;
+}
+
 .header {
   height: 5rem;
   background-color: var(--color-main);
@@ -103,6 +107,7 @@ body {
 
 .issue--closed {
   color: var(--color-text-inactive);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
 }
 
 .issue__header {
@@ -121,6 +126,21 @@ body {
 
 .issue__meta {
   font-size: 1.1rem;
+  align-self: flex-end;
+}
+
+.issue__avatar {
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+.issue__closed-label {
+  font-family: monospace;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-decline);
   align-self: flex-end;
 }
 

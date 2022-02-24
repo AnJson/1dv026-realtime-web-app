@@ -47,7 +47,6 @@ export class WebhooksController {
           updated: formatDistanceToNow(new Date(issueData.updated_at), { addSuffix: true }),
           user: user[0].name,
           user_avatar: user[0].avatar_url,
-          state: issueData.state,
           action: issueData.action
         }
       }

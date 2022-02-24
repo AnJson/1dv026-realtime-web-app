@@ -45,7 +45,8 @@ try {
   app.use(helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", 'gitlab.lnu.se']
+      scriptSrc: ["'self'", 'gitlab.lnu.se'],
+      imgSrc: ['secure.gravatar.com']
     }
   }))
 
