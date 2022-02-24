@@ -1,0 +1,144 @@
+:root {
+  --color-main: rgb(0, 139, 74);
+  --color-main-light: rgb(3, 168, 91);
+  --color-text-light: rgb(240, 242, 255);
+  --color-text-dark: rgb(46, 47, 51);
+  --color-text-inactive: rgb(128, 128, 128);
+  --color-decline: rgb(155, 60, 60);
+  --color-decline-light: rgb(192, 69, 69);
+}
+
+::selection {
+  background-color: var(--color-main);
+  color: var(--color-text-light);
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+.header {
+  height: 5rem;
+  background-color: var(--color-main);
+}
+
+.btn {
+  border: none;
+  background: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn--sm {
+  padding: .5rem 1.5rem;
+}
+
+.btn--md {
+  padding: .7rem 2rem;
+}
+
+.btn--lg {
+  padding: 1rem 3rem;
+} 
+
+.btn--main {
+  background-color: var(--color-main);
+  color: var(--color-text-light);
+}
+
+.btn--main:hover {
+  background-color: var(--color-main-light);
+}
+
+.btn--decline {
+  background-color: var(--color-decline);
+  color: var(--color-text-light);
+}
+
+.btn--decline:hover {
+  background-color: var(--color-decline-light);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem 3rem;
+}
+
+.section__heading {
+  color: var(--color-text-dark);
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.issues-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.issue {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 3px;
+  padding: 1.2rem 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .8);
+}
+
+.issue--closed {
+  color: var(--color-text-inactive);
+}
+
+.issue__header {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, .4);
+  padding: 0 0 1rem;
+}
+
+.issue__title {
+  font-size: 1.8rem;
+  line-height: 1;
+  align-self: flex-end;
+}
+
+.issue__meta {
+  font-size: 1.1rem;
+  align-self: flex-end;
+}
+
+.issue__header-buttons {
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.issue__description {
+  display: block;
+  font-size: 1.4rem;
+  overflow: auto;
+}
+
+.issue__footer {
+  display: flex;
+  align-items: center;
+  padding: 1rem 0 0;
+}

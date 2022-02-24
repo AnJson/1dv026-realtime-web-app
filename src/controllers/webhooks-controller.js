@@ -41,6 +41,7 @@ export class WebhooksController {
         const user = await response.json()
 
         issue = {
+          id: issueData.id,
           title: issueData.title,
           description: issueData.description,
           updated: formatDistanceToNow(new Date(issueData.updated_at), { addSuffix: true }),

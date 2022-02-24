@@ -32,10 +32,11 @@ export class IssuesController {
       })
 
       const issues = await response.json()
-
+      console.log(issues)
       const viewData = {
         issues: issues
           .map(issue => ({
+            id: issue.id,
             title: issue.title,
             description: issue.description,
             updated: formatDistanceToNow(new Date(issue.updated_at), { addSuffix: true }),
