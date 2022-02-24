@@ -6,10 +6,11 @@
  */
 
 import express from 'express'
-import csurf from 'csurf'
 import { IssuesController } from '../controllers/issues-controller.js'
 
 export const router = express.Router()
 const controller = new IssuesController()
 
-router.get('/', csurf(), controller.index)
+router.get('/', controller.index)
+router.get('/edit/:id', controller.edit)
+router.post('/edit/:id', controller.editPost)
