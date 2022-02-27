@@ -23,8 +23,8 @@ export function addIssue (issue, template) {
     const title = issueNode.querySelector('.issue__title')
     const meta = issueNode.querySelector('.issue__meta')
     const description = issueNode.querySelector('.issue__description')
-    const closeLink = issueNode.querySelector('#close-link')
-    const reopenLink = issueNode.querySelector('#reopen-link')
+    const closeForm = issueNode.querySelector('#close-form')
+    const reopenForm = issueNode.querySelector('#reopen-form')
     const editLink = issueNode.querySelector('.issue__footer-link')
 
     issueElement.setAttribute('data-id', issue.id)
@@ -33,8 +33,8 @@ export function addIssue (issue, template) {
     title.textContent = issue.title
     meta.textContent = `edited by ${issue.user} ${issue.updated}`
     description.textContent = issue.description
-    closeLink.setAttribute('href', `./close/${issue.id}`)
-    reopenLink.setAttribute('href', `./reopen/${issue.id}`)
+    closeForm.setAttribute('action', `./close/${issue.id}`)
+    reopenForm.setAttribute('action', `./reopen/${issue.id}`)
     editLink.setAttribute('href', `./edit/${issue.id}`)
 
     issueList.prepend(issueNode)

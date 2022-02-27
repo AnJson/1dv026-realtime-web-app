@@ -105,10 +105,10 @@ export class IssuesController {
       // TODO: Update the post and use PRG-pattern.
 
       req.session.flash = { type: 'success', text: 'Successfully closed issue.' }
-      res.redirect('.') // NOTE: Check the redirect.
+      res.redirect('..')
     } catch (error) {
       req.session.flash = { type: 'error', text: 'Unable to close the issue, try again.' }
-      res.redirect('.')
+      res.redirect('..')
     }
   }
 
@@ -125,10 +125,10 @@ export class IssuesController {
       // TODO: Update the post and use PRG-pattern.
 
       req.session.flash = { type: 'success', text: 'Successfully reopened issue.' }
-      res.redirect('.') // NOTE: Check the redirect.
+      res.redirect('..')
     } catch (error) {
       req.session.flash = { type: 'error', text: 'Unable to reopen the issue, try again.' }
-      res.redirect('.')
+      res.redirect('..')
     }
   }
 
