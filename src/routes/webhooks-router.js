@@ -11,4 +11,4 @@ import { WebhooksController } from '../controllers/webhooks-controller.js'
 export const router = express.Router()
 const controller = new WebhooksController()
 
-router.post('/', controller.authenticate, controller.indexPost)
+router.post('/', controller.authenticate, (req, res, next) => controller.indexPost(req, res, next))

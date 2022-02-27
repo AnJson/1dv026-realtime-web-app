@@ -33,12 +33,7 @@ export class WebhooksController {
         const issueData = req.body.object_attributes
         const userId = issueData.action === 'update' ? issueData.last_edited_by_id : issueData.author_id
 
-        const response = await fetch(`${process.env.USERS_URL}?id=${userId}`, {
-          headers: {
-            authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`
-          }
-        })
-        const user = await response.json()
+        const user = await this.getData(`${process.env.USERS_URL}?id=${userId}`)
 
         issue = {
           id: issueData.id,
@@ -94,5 +89,21 @@ export class WebhooksController {
     }
 
     next()
+  }
+
+  /**
+   * Send authorized get-request to gitlab.
+   *
+   * @param {string} url - Express request object.
+   * @returns {Promise} - A promise fetched data as json.
+   */
+  async getData (url) {
+    const response = await fetch(url, {
+      headers: {
+        authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`
+      }
+    })
+
+    return response.json()
   }
 }

@@ -24,14 +24,8 @@ export class IssuesController {
    */
   async index (req, res, next) {
     try {
-      const response = await fetch(process.env.ISSUES_URL, {
-        headers: {
-          authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`
-        }
-      })
+      const issues = await this.getData(process.env.ISSUES_URL)
 
-      const issues = await response.json()
-      console.log(issues)
       const viewData = {
         issues: issues
           .map(issue => ({
@@ -44,8 +38,6 @@ export class IssuesController {
             user_avatar: issue.author.avatar_url
           }))
       }
-
-      console.log(viewData.issues)
 
       res.render('issues/index', { viewData })
     } catch (error) {
@@ -98,5 +90,61 @@ export class IssuesController {
       req.session.flash = { type: 'error', text: error.message }
       res.redirect('.')
     }
+  }
+
+  /**
+   * Close the issue and redirect to home.
+   * (POST '/close/:id').
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   */
+  async closePost (req, res) {
+    try {
+      console.log(`Close issue ${req.params.id}`)
+      // TODO: Update the post and use PRG-pattern.
+
+      req.session.flash = { type: 'success', text: 'Successfully closed issue.' }
+      res.redirect('.') // NOTE: Check the redirect.
+    } catch (error) {
+      req.session.flash = { type: 'error', text: 'Unable to close the issue, try again.' }
+      res.redirect('.')
+    }
+  }
+
+  /**
+   * Reopen the issue and redirect to home.
+   * (POST '/reopen/:id').
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   */
+  async reopenPost (req, res) {
+    try {
+      console.log(`Reopen issue ${req.params.id}`)
+      // TODO: Update the post and use PRG-pattern.
+
+      req.session.flash = { type: 'success', text: 'Successfully reopened issue.' }
+      res.redirect('.') // NOTE: Check the redirect.
+    } catch (error) {
+      req.session.flash = { type: 'error', text: 'Unable to reopen the issue, try again.' }
+      res.redirect('.')
+    }
+  }
+
+  /**
+   * Send authorized get-request to gitlab.
+   *
+   * @param {string} url - Express request object.
+   * @returns {Promise} - A promise fetched data as json.
+   */
+  async getData (url) {
+    const response = await fetch(url, {
+      headers: {
+        authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`
+      }
+    })
+
+    return response.json()
   }
 }
