@@ -9,10 +9,10 @@
         <span class="issue__meta">edited by <%= issue.user %> <%= issue.updated %></span>
         <span class="issue__closed-label <% if (issue.state !== 'closed') { %> hidden <% } %>">[closed]</span>
         <div class="issue__header-buttons">
-          <form class="<% if (issue.state === 'closed') { %> hidden <% } %>" action="./close/<%= issue.id %>" method="post">
+          <form id="close-form" class="<% if (issue.state === 'closed') { %> hidden <% } %>" action="./close/<%= issue.id %>" method="post">
             <button class="close-button btn btn--sm btn--decline">Close</button>
           </form>
-          <form class="<% if (issue.state === 'opened') { %> hidden <% } %>" action="./reopen/<%= issue.id %>" method="post">
+          <form id="reopen-form" class="<% if (issue.state === 'opened') { %> hidden <% } %>" action="./reopen/<%= issue.id %>" method="post">
             <button class="reopen-button btn btn--sm btn--main">Reopen</button>
           </form>
           

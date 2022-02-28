@@ -5,8 +5,7 @@
  * @version 1.0.0
  */
 import { addIssue } from './add-issue.js'
-import { closeIssue } from './close-issue.js'
-import { reopenIssue } from './reopen-issue.js'
+import { toggleIssueState } from './toggle-issue-state.js'
 
 const issueTemplate = document.querySelector('#issue-template')
 
@@ -22,6 +21,6 @@ if (issueTemplate) {
 
   // Listen for messages from the server.
   socket.on('issue/create', (issue) => addIssue(issue, issueTemplate))
-  socket.on('issue/close', (issue) => closeIssue(issue))
-  socket.on('issue/reopen', (issue) => reopenIssue(issue))
+  socket.on('issue/close', (issue) => toggleIssueState(issue, 'close'))
+  socket.on('issue/reopen', (issue) => toggleIssueState(issue, 'open'))
 }
