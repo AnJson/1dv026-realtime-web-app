@@ -86,12 +86,6 @@ export class IssuesController {
     try {
       // TODO: Fetch issue and map viewData.
 
-      /* const response = await fetch(process.env.ISSUES_URL, {
-        headers: {
-          authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`
-        }
-      }) */
-
       const viewData = null // NOTE: Fix viewData
 
       res.render('issues/edit', { viewData })
@@ -129,8 +123,15 @@ export class IssuesController {
    */
   async closePost (req, res) {
     try {
-      console.log(`Close issue ${req.params.id}`)
-      // TODO: Update the post and use PRG-pattern.
+      if (req.issue.state === 'closed') {
+        req.session.flash = { type: 'error', text: 'Issue is already closed.' }
+        res.redirect('..')
+        return
+      }
+
+      await this.#postRequest(`${process.env.ISSUES_URL}/${req.issue.iid}`, {
+        state_event: 'close'
+      })
 
       req.session.flash = { type: 'success', text: 'Successfully closed issue.' }
       res.redirect('..')
@@ -169,10 +170,28 @@ export class IssuesController {
   async #getData (url) {
     const response = await fetch(url, {
       headers: {
-        authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`
+        Authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`
       }
     })
 
     return response.json()
+  }
+
+  /**
+   * Send authorized post-request to gitlab.
+   *
+   * @param {string} url - Express request object.
+   * @param {object} data - Request-body.
+   * @returns {Promise} - A promise for response-object.
+   */
+  async #postRequest (url, data) {
+    return fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`
+      },
+      body: JSON.stringify(data)
+    })
   }
 }
