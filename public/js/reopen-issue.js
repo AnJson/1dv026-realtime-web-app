@@ -1,23 +1,22 @@
 /**
- * Add-issue module.
+ * Reopen-issue module.
  *
  * @author Anders Jonsson
  * @version 1.0.0
  */
 
 /**
- * Inserts a issue at the start of the issues-list.
+ * Sets state of issue to open in issues-list.
  *
  * @param {object} issue - The issue to add.
- * @param {HTMLElement} template - The template for the issue.
  */
-export const addIssue = (issue, template) => {
+export const reopenIssue = (issue) => {
   const issueList = document.querySelector('.issues-wrapper')
+  const issueNode = issueList.querySelector(`[data-id="${issue.id}"]`)
 
-  // Only add a issue if it's not already in the list.
-  if (!issueList.querySelector(`[data-id="${issue.id}"]`)) {
-    const issueNode = template.content.cloneNode(true)
-
+  // Only add a issue if it's already in the list.
+  if (issueNode) {
+    // TODO: Implement toggeling state of issue.
     const issueElement = issueNode.querySelector('.issue')
     const avatarImg = issueNode.querySelector('.issue__avatar')
     const title = issueNode.querySelector('.issue__title')

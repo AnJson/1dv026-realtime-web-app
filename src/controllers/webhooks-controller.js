@@ -41,8 +41,7 @@ export class WebhooksController {
           description: issueData.description,
           updated: formatDistanceToNow(new Date(issueData.updated_at), { addSuffix: true }),
           user: user[0].name,
-          user_avatar: user[0].avatar_url,
-          action: issueData.action
+          user_avatar: user[0].avatar_url
         }
       }
 
@@ -54,11 +53,11 @@ export class WebhooksController {
         }
 
         if (issue.action === 'close') {
-          console.log('CLOSED ISSUE!')
+          res.io.emit('issue/close', issue)
         }
 
         if (issue.action === 'reopen') {
-          console.log('REOPENED ISSUE!')
+          res.io.emit('issue/reopen', issue)
         }
 
         if (issue.action === 'open') {
