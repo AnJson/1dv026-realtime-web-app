@@ -33,10 +33,10 @@ export class WebhooksController {
         const issueData = req.body.object_attributes
         const userId = issueData.action === 'update' ? issueData.last_edited_by_id : issueData.author_id
 
-        const user = await this.getData(`${process.env.USERS_URL}?id=${userId}`)
+        const user = await this.#getData(`${process.env.USERS_URL}?id=${userId}`)
 
         issue = {
-          id: issueData.id,
+          id: issueData.iid,
           title: issueData.title,
           description: issueData.description,
           updated: formatDistanceToNow(new Date(issueData.updated_at), { addSuffix: true }),
@@ -49,7 +49,6 @@ export class WebhooksController {
       // Check what type of data and what kind of event to send to client.
       // And save to db.
       if (issue) {
-        console.log(issue)
         if (issue.action === 'update') {
           console.log('UPDATED ISSUE!')
         }
@@ -97,7 +96,7 @@ export class WebhooksController {
    * @param {string} url - Express request object.
    * @returns {Promise} - A promise fetched data as json.
    */
-  async getData (url) {
+  async #getData (url) {
     const response = await fetch(url, {
       headers: {
         authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`

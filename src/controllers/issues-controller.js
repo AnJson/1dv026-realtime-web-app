@@ -14,6 +14,34 @@ import fetch from 'node-fetch'
  */
 export class IssuesController {
   /**
+   * Load the issue.
+   * (param 'id').
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   * @param {string} id - The id of the issue.
+   */
+  async loadIssue (req, res, next, id) {
+    try {
+      const issue = await this.#getData(`${process.env.ISSUES_URL}/${id}`)
+
+      if (!issue.iid || issue.iid !== Number.parseInt(id)) {
+        const error = new Error('Not found')
+        error.status = 404
+        next(error)
+        return
+      }
+
+      req.issue = issue
+
+      next()
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  /**
    * Renders a view and sends the rendered HTML string as an HTTP response.
    * Fetches issues from gitlab and sends data to view.
    * (GET '/issues').
@@ -24,12 +52,12 @@ export class IssuesController {
    */
   async index (req, res, next) {
     try {
-      const issues = await this.getData(process.env.ISSUES_URL)
+      const issues = await this.#getData(process.env.ISSUES_URL)
 
       const viewData = {
         issues: issues
           .map(issue => ({
-            id: issue.id,
+            id: issue.iid,
             title: issue.title,
             description: issue.description,
             updated: formatDistanceToNow(new Date(issue.updated_at), { addSuffix: true }),
@@ -138,7 +166,7 @@ export class IssuesController {
    * @param {string} url - Express request object.
    * @returns {Promise} - A promise fetched data as json.
    */
-  async getData (url) {
+  async #getData (url) {
     const response = await fetch(url, {
       headers: {
         authorization: `Bearer ${process.env.AUTHENTICATION_TOKEN}`
