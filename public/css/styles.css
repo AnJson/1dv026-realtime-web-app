@@ -3,7 +3,7 @@
   --color-main-light: rgb(3, 168, 91);
   --color-text-light: rgb(240, 242, 255);
   --color-text-dark: rgb(46, 47, 51);
-  --color-text-inactive: rgb(128, 128, 128);
+  --color-text-inactive: rgb(212, 212, 212);
   --color-decline: rgb(155, 60, 60);
   --color-decline-light: rgb(192, 69, 69);
 }
@@ -33,11 +33,6 @@ body {
 
 .hidden {
   display: none !important;
-}
-
-.header {
-  height: 5rem;
-  background-color: var(--color-text-dark);
 }
 
 .btn {
