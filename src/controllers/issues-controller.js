@@ -150,8 +150,15 @@ export class IssuesController {
    */
   async reopenPost (req, res) {
     try {
-      console.log(`Reopen issue ${req.params.id}`)
-      // TODO: Update the post and use PRG-pattern.
+      if (req.issue.state === 'opened') {
+        req.session.flash = { type: 'error', text: 'Issue is already open.' }
+        res.redirect('..')
+        return
+      }
+
+      await this.#postRequest(`${process.env.ISSUES_URL}/${req.issue.iid}`, {
+        state_event: 'reopen'
+      })
 
       req.session.flash = { type: 'success', text: 'Successfully reopened issue.' }
       res.redirect('..')
