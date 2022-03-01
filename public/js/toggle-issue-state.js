@@ -15,7 +15,7 @@ export const toggleIssueState = (issue, action) => {
   const issueList = document.querySelector('.issues-wrapper')
   const issueElement = issueList.querySelector(`[data-id="${issue.id}"]`)
 
-  // Only toggle state of issue if a issue is already in the list.
+  // Only toggle state of issue if issue is already in the list.
   if (issueElement) {
     const avatarImg = issueElement.querySelector('.issue__avatar')
     const meta = issueElement.querySelector('.issue__meta')

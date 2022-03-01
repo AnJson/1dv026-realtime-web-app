@@ -31,9 +31,8 @@ export class WebhooksController {
 
       if (req.body.event_type === 'issue') {
         const issueData = req.body.object_attributes
-        const userId = issueData.action === 'update' ? issueData.last_edited_by_id : issueData.author_id
 
-        const user = await this.#getData(`${process.env.USERS_URL}?id=${userId}`)
+        const user = await this.#getData(`${process.env.USERS_URL}?id=${issueData.author_id}`)
 
         issue = {
           id: issueData.iid,
@@ -50,7 +49,7 @@ export class WebhooksController {
       // And save to db.
       if (issue) {
         if (issue.action === 'update') {
-          console.log('UPDATED ISSUE!')
+          res.io.emit('issue/update', issue)
         }
 
         if (issue.action === 'close') {

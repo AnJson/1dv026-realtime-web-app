@@ -5,6 +5,7 @@
  * @version 1.0.0
  */
 import { addIssue } from './add-issue.js'
+import { updateIssue } from './update-issue.js'
 import { toggleIssueState } from './toggle-issue-state.js'
 
 const issueTemplate = document.querySelector('#issue-template')
@@ -23,4 +24,5 @@ if (issueTemplate) {
   socket.on('issue/create', (issue) => addIssue(issue, issueTemplate))
   socket.on('issue/close', (issue) => toggleIssueState(issue, 'close'))
   socket.on('issue/reopen', (issue) => toggleIssueState(issue, 'open'))
+  socket.on('issue/update', (issue) => updateIssue(issue))
 }

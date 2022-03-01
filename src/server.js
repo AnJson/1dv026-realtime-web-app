@@ -46,7 +46,7 @@ try {
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", 'gitlab.lnu.se'],
-      imgSrc: ['secure.gravatar.com']
+      imgSrc: ['gitlab.lnu.se', 'secure.gravatar.com']
     }
   }))
 
