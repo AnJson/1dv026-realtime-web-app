@@ -14,6 +14,24 @@ import fetch from 'node-fetch'
  */
 export class IssuesController {
   /**
+   * Format the raw issue-object.
+   *
+   * @param {object} issue - Express request object.
+   * @returns {object} - Formatted issue-object.
+   */
+  #formatIssue (issue) {
+    return {
+      id: issue.iid,
+      title: issue.title,
+      description: issue.description,
+      updated: formatDistanceToNow(new Date(issue.updated_at), { addSuffix: true }),
+      state: issue.state,
+      user: issue.author.name,
+      user_avatar: issue.author.avatar_url
+    }
+  }
+
+  /**
    * Load the issue.
    * (param 'id').
    *
@@ -56,15 +74,7 @@ export class IssuesController {
 
       const viewData = {
         issues: issues
-          .map(issue => ({
-            id: issue.iid,
-            title: issue.title,
-            description: issue.description,
-            updated: formatDistanceToNow(new Date(issue.updated_at), { addSuffix: true }),
-            state: issue.state,
-            user: issue.author.name,
-            user_avatar: issue.author.avatar_url
-          }))
+          .map(issue => this.#formatIssue(issue))
       }
 
       res.render('issues/index', { viewData })
@@ -84,9 +94,9 @@ export class IssuesController {
    */
   async edit (req, res, next) {
     try {
-      // TODO: Fetch issue and map viewData.
-
-      const viewData = null // NOTE: Fix viewData
+      const viewData = {
+        issue: this.#formatIssue(req.issue)
+      }
 
       res.render('issues/edit', { viewData })
     } catch (error) {

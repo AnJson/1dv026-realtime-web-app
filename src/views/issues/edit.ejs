@@ -1,1 +1,18 @@
-<h1>edit issue</h1>
+<div class="section">
+  <h1 class="section__heading">Edit issue</h1>
+  <form id="form" class="form" action="./edit/<%= viewData.issue.id %>" method="post">
+    <fieldset class="form__fieldset">
+      <label for="title" class="form__label">Title:</label>
+      <input class="form__textinput" type="text" name="title" value="<%= viewData.issue.title %> " />
+    </fieldset>
+    <fieldset class="form__fieldset">
+      <label for="description" class="form__label">Description:</label>
+      <textarea class="form__textarea" name="description" required><%= viewData.issue.description %></textarea>
+    </fieldset>
+    <fieldset class="form__fieldset">
+      <input class="btn btn--lg btn--main" type="submit" value="Save" id="submit-button" />
+    </fieldset>
+  </form>
+  <a href="./"><button class="btn btn--lg btn--decline" id="cancel-button">Cancel</button></a>
+</div>
+<script src="./js/form.js" type="module"></script>
