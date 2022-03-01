@@ -114,13 +114,16 @@ export class IssuesController {
    */
   async editPost (req, res, next) {
     try {
-      // TODO: Update the post and use PRG-pattern.
+      await this.#postRequest(`${process.env.ISSUES_URL}/${req.issue.iid}`, {
+        title: req.body.title,
+        description: req.body.description
+      })
 
       req.session.flash = { type: 'success', text: 'Successfully updated issue.' }
-      res.redirect('.') // NOTE: Check the redirect.
+      res.redirect('..')
     } catch (error) {
       req.session.flash = { type: 'error', text: error.message }
-      res.redirect('.')
+      res.redirect('..')
     }
   }
 
